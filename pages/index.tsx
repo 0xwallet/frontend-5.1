@@ -1,9 +1,11 @@
 import Head from "next/head";
-import Link from 'next/link'
+import Link from "next/link";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
+import Title from "../components/title";
+import { languages, contentLanguageMap } from "../lib/i18n";
 
-export default function Home({isDemo}) {
+export default function Home({ isDemo }) {
   return (
     <div className={styles.container}>
       <Head>
@@ -13,15 +15,27 @@ export default function Home({isDemo}) {
       </Head>
       <h1 className="text-3xl font-bold underline">Hello world!</h1>
       <Link href="/list">
-          <a>list</a>
+        <a>list</a>
       </Link>
       {/* 这种形式是属于前端的路由跳转，属于单页面运用，还在当前页面中 */}
       <Link href="/demo">
-          <a>demo</a>
+        <a>demo</a>
       </Link>
       {/* 这种形式类似与向后端路由发送请求，会刷新页面的 */}
-      <a href='./list'>跳转</a>
-      {isDemo}
+      <a href="./list">跳转</a>
+      {/* {isDemo} */}
+      <Title username="Peter" />
     </div>
   );
+}
+
+export async function getStaticProps({ params }) {
+  const flag = {
+    lng: "de"
+  };
+  const { default: lngDict = {} } = await import(`../locales/${flag.lng}.json`);
+
+  return {
+    props: { lng: flag.lng, lngDict }
+  };
 }
