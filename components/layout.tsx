@@ -1,6 +1,7 @@
 import React from "react";
 import Head from "next/head";
-function Layout( { children } ) {
+function Layout( props: any ) {
+  const { children } = props;
   return (
     <div>
       <Head>

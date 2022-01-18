@@ -4,8 +4,10 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import Title from "../components/title";
 import { languages, contentLanguageMap } from "../lib/i18n";
+import { useSelector, connect } from "react-redux";
 
-export default function Home({ isDemo }) {
+function Home(props: any) {
+  const state = useSelector(state => state);
   return (
     <div className={styles.container}>
       <Head>
@@ -14,6 +16,15 @@ export default function Home({ isDemo }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <h1 className="text-3xl font-bold underline">Hello world!</h1>
+      <br></br>
+      <div>此时此刻的counter值:{props.counter}</div>
+      <div
+        onClick={() => {
+          props.add(2);
+        }}
+      >
+        点击增加add
+      </div>
       <Link href="/list">
         <a>list</a>
       </Link>
@@ -28,10 +39,25 @@ export default function Home({ isDemo }) {
     </div>
   );
 }
+const mapStateToProps = state => ({
+  counter: state.count,
+  person: state.person
+});
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    add: value => {
+      dispatch({
+        type: "INCREMENT",
+        value: value
+      });
+    }
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
 
 export async function getStaticProps({ params }) {
   const flag = {
-    lng: "de"
+    lng: "en"
   };
   const { default: lngDict = {} } = await import(`../locales/${flag.lng}.json`);
 

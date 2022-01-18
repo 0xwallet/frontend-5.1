@@ -6,7 +6,6 @@ import Head from "next/head";
  * @param {*} param0
  */
 function List({ name,isDemo }) {
-  console.log("list");
   return (
     <div>
       <Head>
