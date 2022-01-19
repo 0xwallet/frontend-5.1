@@ -1,7 +1,9 @@
 import React from "react";
 import Head from "next/head";
+import { useSelector, connect } from "react-redux";
 function Layout( props: any ) {
   const { children } = props;
+  console.log('layout重新渲染')
   return (
     <div>
       <Head>
@@ -15,4 +17,10 @@ function Layout( props: any ) {
     </div>
   );
 }
-export default Layout;
+const mapStateToProps = state => ({
+  // counter: state.count,
+  // person: state.person,
+  demoLn: state.lng
+});
+export default connect(mapStateToProps)(Layout);
+// export default Layout;
